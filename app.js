@@ -1,14 +1,26 @@
 // Js Script que ordena los items de la view
-
-const headers = () => {
-  const div_headers = document.querySelector(".markets-table-header");
-  let cols_headers = div_headers.querySelectorAll("div");
-  cols_headers = Array(...cols_headers);
-};
+const cols = [
+  "Especie",
+  "Último Precio",
+  "Var %",
+  "CC",
+  "PC",
+  "PV",
+  "CV",
+  "Cierre",
+  "Min",
+  "Max",
+  "Total",
+  "Oper",
+];
+let ascending = new Array(cols.length).fill(true);
 
 const get_value_from_index = (divs, index) => {
   let res;
-  if (index == 1) {
+  if (index == 0) {
+    return divs[index].querySelector("span").textContent;
+  }
+  if (index == 2) {
     res = Number(
       divs[index].textContent.replaceAll("%", "").replaceAll("+", "")
     );
@@ -25,7 +37,7 @@ const get_filas = () => {
 };
 
 const get_cols_from_fila = (fila) => {
-  return Array(...fila.querySelectorAll(".grid-col")).slice(2, fila.length);
+  return Array(...fila.querySelectorAll(".grid-col")).slice(1, fila.length);
 };
 
 const filas_sorted = (index, ascendente) => {
@@ -52,8 +64,30 @@ const agregar_nodos_ordenados = (nodos) => {
   nodos.forEach((i) => padre.append(i));
 };
 
-const play = (col) => {
-  const items = filas_sorted(col, false);
+const ordenar_por_columna = (col, ascending) => {
+  const items = filas_sorted(col, ascending);
   borrar_nodos(items);
   agregar_nodos_ordenados(items);
 };
+
+// Click handler
+const click_handler = (event) => {
+  const target = event.target;
+  const nombre_columna = target.textContent;
+  const index_of_col = cols.indexOf(nombre_columna);
+  const tipo_sort = !ascending[index_of_col];
+  ascending[index_of_col] = !ascending[index_of_col];
+  ordenar_por_columna(index_of_col, tipo_sort);
+};
+
+// Agrego listener a
+const add_listener_to_headers = () => {
+  const div_headers = document.querySelector(".markets-table-header");
+  let cols_headers = div_headers.querySelectorAll("div");
+  cols_headers = Array(...cols_headers);
+  cols_headers.map((element) => {
+    element.addEventListener("click", click_handler);
+  });
+};
+
+add_listener_to_headers();
