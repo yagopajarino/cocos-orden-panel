@@ -1,3 +1,15 @@
+// Styles
+var styles = `
+    #flecha_orden { 
+        margin-left: 3px;
+        font-size: 15px
+    }
+`
+
+var styleSheet = document.createElement("style")
+styleSheet.innerText = styles
+document.head.appendChild(styleSheet)
+
 // Js Script que ordena los items de la view
 const cols = [
   "Especie",
@@ -68,12 +80,30 @@ const ordenar_por_columna = (col, ascending) => {
   const items = filas_sorted(col, ascending);
   borrar_nodos(items);
   agregar_nodos_ordenados(items);
+  cambiar_titulo_col(col, ascending);
 };
+
+const eliminar_todas_las_flechas = () => {
+  const flechas = Array(...document.querySelectorAll("#flecha_orden"))
+  flechas.map(i => i.remove())
+}
+
+const cambiar_titulo_col = (col, ascending) => {
+  let titulos = Array(...document.querySelector(".markets-table-header").querySelectorAll(".grid-col"))
+  titulos = titulos.slice(0, titulos.length)
+  eliminar_todas_las_flechas()
+  const new_span = document.createElement("span")
+  new_span.id = "flecha_orden"
+  new_span.className = "MuiTypography-root MuiTypography-textXS css-19g1xeo"
+  new_span.textContent = ascending ? "▲" : "▼"
+  titulos[col].appendChild(new_span)  
+// titulos[col].querySelector("span").textContent = ascending ? cols[col] + " ▲" : cols[col] + " ▼"
+}
 
 // Click handler
 const click_handler = (event) => {
   const target = event.target;
-  const nombre_columna = target.textContent;
+  const nombre_columna = target.textContent.replaceAll(" ▲", "").replaceAll(" ▼", "");
   const index_of_col = cols.indexOf(nombre_columna);
   const tipo_sort = !ascending[index_of_col];
   ascending[index_of_col] = !ascending[index_of_col];
