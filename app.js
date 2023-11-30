@@ -1,16 +1,8 @@
-// Styles
-var styles = `
-    #flecha_orden { 
-        margin-left: 3px;
-        font-size: 15px
-    }
-`
+// Ordenamiento de panel de instrumentos COCOS CAPITAL
 
-var styleSheet = document.createElement("style")
-styleSheet.innerText = styles
-document.head.appendChild(styleSheet)
+// Desrrollado por Yago Pajariño yago.pajarino@outlook.com
+// 2023-11-30
 
-// Js Script que ordena los items de la view
 const cols = [
   "Especie",
   "Último Precio",
@@ -121,3 +113,15 @@ const add_listener_to_headers = () => {
 };
 
 add_listener_to_headers();
+
+// Agrega estilo de flechas orden asc, desc
+var styles = `
+    #flecha_orden { 
+        margin-left: 3px;
+        font-size: 15px
+    }
+`
+
+var styleSheet = document.createElement("style")
+styleSheet.innerText = styles
+document.head.appendChild(styleSheet)
