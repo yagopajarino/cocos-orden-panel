@@ -4,7 +4,6 @@
 // 2023-11-30
 
 const cols = [
-  "Especie",
   "Último Precio",
   "Var %",
   "CC",
@@ -21,16 +20,15 @@ let ascending = new Array(cols.length).fill(true);
 
 const get_value_from_index = (divs, index) => {
   let res;
-  if (index == 0) {
-    return divs[index].querySelector("span").textContent;
-  }
-  if (index == 2) {
+  const valor = divs[index].textContent
+  if (valor == "-") return 0;
+  if (index == 1) {
     res = Number(
-      divs[index].textContent.replaceAll("%", "").replaceAll("+", "")
+      valor.replaceAll("%", "").replaceAll("+", "")
     );
   } else {
     res = Number(
-      divs[index].textContent.replaceAll(".", "").replaceAll(",", ".")
+      valor.replaceAll(".", "").replaceAll(",", ".")
     );
   }
   return res;
@@ -70,6 +68,7 @@ const agregar_nodos_ordenados = (nodos) => {
 
 const ordenar_por_columna = (col, ascending) => {
   const items = filas_sorted(col, ascending);
+  console.log(items)
   borrar_nodos(items);
   agregar_nodos_ordenados(items);
   cambiar_titulo_col(col, ascending);
@@ -82,14 +81,13 @@ const eliminar_todas_las_flechas = () => {
 
 const cambiar_titulo_col = (col, ascending) => {
   let titulos = Array(...document.querySelector(".markets-table-header").querySelectorAll(".grid-col"))
-  titulos = titulos.slice(0, titulos.length)
+  titulos = titulos.slice(1, titulos.length)
   eliminar_todas_las_flechas()
   const new_span = document.createElement("span")
   new_span.id = "flecha_orden"
   new_span.className = "MuiTypography-root MuiTypography-textXS css-19g1xeo"
   new_span.textContent = ascending ? "▲" : "▼"
-  titulos[col].appendChild(new_span)  
-// titulos[col].querySelector("span").textContent = ascending ? cols[col] + " ▲" : cols[col] + " ▼"
+  titulos[col].appendChild(new_span)
 }
 
 // Click handler
@@ -98,7 +96,7 @@ const click_handler = (event) => {
   const nombre_columna = target.textContent.replaceAll(" ▲", "").replaceAll(" ▼", "");
   const index_of_col = cols.indexOf(nombre_columna);
   const tipo_sort = !ascending[index_of_col];
-  ascending[index_of_col] = !ascending[index_of_col];
+  ascending = ascending.map((value, index) => index == index_of_col?!ascending[index_of_col]:true);
   ordenar_por_columna(index_of_col, tipo_sort);
 };
 
