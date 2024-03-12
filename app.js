@@ -1,6 +1,6 @@
 // Ordenamiento de panel de instrumentos COCOS CAPITAL
 
-// Desrrollado por Yago Pajariño yago.pajarino@outlook.com
+// Desrrollado por Yago Pajariño yagopajarino@outlook.com
 // 2023-11-30
 
 const cols = [
