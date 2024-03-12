@@ -68,7 +68,6 @@ const agregar_nodos_ordenados = (nodos) => {
 
 const ordenar_por_columna = (col, ascending) => {
   const items = filas_sorted(col, ascending);
-  console.log(items)
   borrar_nodos(items);
   agregar_nodos_ordenados(items);
   cambiar_titulo_col(col, ascending);
